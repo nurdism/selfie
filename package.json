@@ -1,7 +1,7 @@
 {
   "name": "selfie",
   "version": "0.1.0",
-  "description": "Selfie is Discord.js a selfbot command framwork!",
+  "description": "Selfie is a Discord.js selfbot command framwork!",
   "main": "src/index",
   "repository": {
     "type": "git",
