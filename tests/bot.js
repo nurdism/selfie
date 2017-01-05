@@ -6,7 +6,7 @@ const path = require('path');
 selfie.on('ready', () => { console.info(`Client ready; logged in as ${selfie.user.username}#${selfie.user.discriminator} (${selfie.user.id}), Serving in ${selfie.guilds.array().length} servers!`); })
       .on('disconnect', () => { console.warn('Disconnected!'); })
       .on('reconnect', () => { console.warn('Reconnecting...'); })
-      .on('commandRegister', (cmd, registry) => { console.info(`Registered command ${cmd.group}:${cmd.name} (${registry.commands.length})`); })
+      .on('commandRegister', (cmd, registry) => { console.info(`Registered command (${registry.commands.array().length}) ${cmd.group}:${cmd.name}`); })
       .on('unknownCommand', (cmd, args) => { console.warn(`Unknown Command: ${cmd} => ${args}`); })
       .on('commandBlocked', (cmd, cmdMessage, reason) => { console.warn(`Command Blocked: ${cmd.group}:${cmd.name}, reason: ${reason}, args: ${cmdMessage.args.join(' ')}`); })
       .on('commandError', (cmd, cmdMessage, args, err) => { console.warn(`Command Error: ${cmd.group}:${cmd.name}, ${err.name}: ${err.message} \n ${err.stack}`); })
