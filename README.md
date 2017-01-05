@@ -1,6 +1,6 @@
 ## Selfie
 
-Selfie is a simple command framework for selfbots and selfbots only. It uses a suffix rather than a prefix to command so keep that in mind.
+Selfie is a simple command framework for selfbots and selfbots only. It uses a suffix rather than a prefix for commands so keep that in mind.
 
 This is currently undocumented, too lazy to add docs might later. To get a good idea on how to use framework look in tests.
 
