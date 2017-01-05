@@ -1,0 +1,27 @@
+{
+  "name": "selfie",
+  "version": "0.1.0",
+  "description": "Selfie is Discord.js a selfbot command framwork!",
+  "main": "src/index",
+  "keywords": [
+    "discord",
+    "selfbot",
+    "commands"
+  ],
+  "scripts": {
+    "test": "node ./tests/bot.js"
+  },
+  "author": "Digitronic <me@digironic.io>",
+  "license": "MIT",
+  "dependencies": {
+    "require-all": "2.x",
+    "sequelize": "3.x"
+  },
+  "peerDependencies": {
+    "discord.js": "10.x || 11.x",
+    "sqlite3": "3.x"
+  },
+  "devDependencies": {
+    "sqlite3": "3.x"
+  }
+}
