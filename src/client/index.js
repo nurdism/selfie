@@ -5,37 +5,43 @@ const Database = require('./../providers/database');
 const Settings = require('./../providers/settings');
 
 class SelfieClient extends Client {
-    constructor( options ){
-        super( options );
+  constructor(options) {
+    super(options);
 
-        this.database   = new Database( options.database );
+    this.database = new Database(this, options.database, options.sequelize);
 
-        this.settings = new Settings( this, this.database );
+    this.settings = new Settings(this, this.database);
 
-        this.registry   = new Registry( this );
+    this.registry = new Registry(this);
 
-        this.dispatcher = new Dispatcher( this, this.registry );
+    this.dispatcher = new Dispatcher(this, this.registry);
 
-        this.suffix = options.suffix || '?';
+    this.suffix = options.suffix || '?';
 
-        this.on('message', msg => {
-            try{ this.dispatcher.handleMessage( msg ); } catch( err ) { this.emit( 'error', err ); }
-        });
+    this.on('message', msg => {
+      try {
+        this.dispatcher.handleMessage(msg);
+      } catch (err) {
+        this.emit('error', err);
+      }
+    });
 
-        this.on('messageUpdate', ( msg, old ) => {
-            try{ this.dispatcher.handleMessage( msg, old ); } catch( err ) { this.emit( 'error', err ); }
-        });
+    this.on('messageUpdate', (msg, old) => {
+      try {
+        this.dispatcher.handleMessage(msg, old);
+      } catch (err) {
+        this.emit('error', err);
+      }
+    });
 
-        this.on('ready', () => {
-            this.settings.init();
-        });
-    }
+    this.on('ready', () => {
+      this.settings.init();
+    });
+  }
 
-    login( token ){
-        this.database.start().then( db => {
-            return super.login( token );
-        }).catch( err => { this.emit( 'error', err ) });
-    }
+  login(token) {
+    return this.database.start().then(() => super.login(token)).catch(err => { this.emit('error', err); });
+  }
 
 }
 

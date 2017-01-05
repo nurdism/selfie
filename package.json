@@ -1,6 +1,6 @@
 {
   "name": "selfie",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Selfie is a Discord.js selfbot command framwork!",
   "main": "src/index",
   "repository": {
@@ -16,7 +16,9 @@
     "commands"
   ],
   "scripts": {
-    "test": "node ./tests/bot.js"
+    "test": "node ./tests/bot.js",
+    "lint": "eslint src",
+    "fix": "eslint --fix src"
   },
   "author": "Digitronic <me@digironic.io>",
   "license": "MIT",
@@ -29,6 +31,7 @@
     "sqlite3": "^3.1.8"
   },
   "devDependencies": {
+    "eslint": "^3.12.2",
     "sqlite3": "^3.1.8"
   }
 }
