@@ -12,11 +12,10 @@ module.exports = class CommandTable extends Command {
   }
 
   run(msg) {
-    return msg.channel.send(`${'```'}${
-      inspect(
-          this.client.commands.table,
-          { depth: 2, showHidden: true }
-          )}${'```'}`);
+    return msg.sendCode(inspect(
+      this.client.commands.table,
+      { depth: 2, showHidden: true }
+    ));
   }
 
 };

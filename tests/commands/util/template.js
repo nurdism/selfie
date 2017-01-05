@@ -21,7 +21,7 @@ module.exports = class Template extends Command {
   }
 
   run(msg, args, executor, edited) {
-    return msg.channel.send(`${'```'}args:${args}\nexecutor:${executor}\nedited:${edited}${'```'}`);
+    return msg.sendCode(`args:${args}\nexecutor:${executor}\nedited:${edited}`);
   }
 
   onReject(channel, reason, error) {
@@ -32,7 +32,7 @@ module.exports = class Template extends Command {
       error: error ? `\`${error.name}: ${error.message}\`` : 'An error has occurred.',
     };
 
-    return reasons[reason] ? channel.sendMessage(reasons[reason]) : false;
+    return reasons[reason] ? channel.send(reasons[reason]) : false;
   }
 
 };

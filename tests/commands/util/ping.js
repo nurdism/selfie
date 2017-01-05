@@ -13,6 +13,6 @@ module.exports = class Ping extends Command {
 
   run(msg) {
     msg.delete();
-    return msg.channel.sendMessage('Ping').then(message => message.edit(`Pong! ( took: ${message.createdTimestamp - msg.createdTimestamp} ms )`));
+    return msg.send('Ping').then(message => message.edit(`Pong! ( took: ${message.createdTimestamp - msg.createdTimestamp} ms )`));
   }
 };

@@ -18,6 +18,6 @@ module.exports = class Settings extends Command {
 
     let new_setting = this.settings.get('test', null);
 
-    return msg.channel.send(`${'```'}${setting} => ${new_setting}${'```'}`);
+    return msg.sendCode(`${setting} => ${new_setting}`);
   }
 };

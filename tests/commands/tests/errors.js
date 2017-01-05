@@ -41,7 +41,7 @@ module.exports = class ErrorTest extends Command {
       error: error ? `\`${error.name}: ${error.message}\`` : 'An error has occurred.',
     };
 
-    return reasons[reason] ? channel.sendMessage(reasons[reason]) : false;
+    return reasons[reason] ? channel.send(reasons[reason]) : false;
   }
 
 };

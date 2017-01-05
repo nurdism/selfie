@@ -12,6 +12,6 @@ module.exports = class Test extends Command {
   }
 
   run(msg, args, executor, edited) {
-    return msg.channel.send(`${'```'}args:${args}\nexecutor:${executor}\nedited:${edited}${'```'}`);
+    return msg.sendCode(`args:${args}\nexecutor:${executor}\nedited:${edited}`);
   }
 };

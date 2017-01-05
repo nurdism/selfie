@@ -17,7 +17,7 @@ module.exports = class Cats extends Command {
       return this.database.model('cats').upsert(
             { name: args[1], image: args[2] },
             { where: { name: args[1] } }).then(() =>
-            msg.channel.send(`${'```'}Cat ${args[1]} added!${'```'}`)
+            msg.sendCode(`Cat ${args[1]} added!`)
         );
     }
 
@@ -26,12 +26,12 @@ module.exports = class Cats extends Command {
     .then(instance => {
       if (instance) {
         let embed = new RichEmbed()
-                .setColor(0x00AE86)
-                .setTitle(instance.dataValues.name)
-                .setImage(instance.dataValues.image);
-        return msg.channel.sendEmbed(embed);
+        .setColor(0x00AE86)
+        .setTitle(instance.dataValues.name)
+        .setImage(instance.dataValues.image);
+        return msg.sendEmbed(embed);
       } else {
-        return msg.channel.send(`${'```'}404 Cat not found!${'```'}`);
+        return msg.sendCode(`404 Cat not found!`);
       }
     });
   }

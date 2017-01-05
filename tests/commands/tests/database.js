@@ -32,7 +32,7 @@ module.exports = class Database extends Command {
       for (const row of rows) {
         data.push(`${row.dataValues.id}: ${row.dataValues.content}`);
       }
-      return msg.channel.send(`${'```'}${data.join('\n')}${'```'}`);
+      return msg.sendCode(data.join('\n'));
     });
   }
 };

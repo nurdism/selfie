@@ -73,28 +73,24 @@ class CommandMessage {
     }
   }
 
-  say(content, options) {
+  send(content, options) {
     return this.message.channel.send(content, options);
   }
 
   reply(content, options) {
-    return this.message.reply.send(content, options);
+    return this.message.reply(content, options);
   }
 
-  direct(user, content, options) {
-    return user.sendMessage(content, options);
+  sendCode(content, lang, options) {
+    return this.message.sendCode(content, lang, options);
   }
 
-  code(content, lang, options) {
-    return this.message.channel.send(`${'```'}${lang ? `${lang}\n` : ''}${content}${'```'}`, options);
+  sendEmbed(embed) {
+    return this.message.sendEmbed(embed);
   }
 
-  embed(content, embed) {
-    return this.message.channel.send(content, { embed: embed });
-  }
-
-  send(content, options) {
-    return this.message.channel.send(content, options);
+  editEmbed(embed, content) {
+    return this.message.sendEmbed(embed, content);
   }
 
   find(search) {
