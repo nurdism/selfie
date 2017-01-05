@@ -8,30 +8,22 @@ class SelfieClient extends Client {
   constructor(options) {
     super(options);
 
-    this.database = new Database(this, options.database, options.sequelize);
+    this.database = new Database(this, options.database);
 
     this.settings = new Settings(this, this.database);
 
-    this.registry = new Registry(this);
+    this.commands = new Registry(this);
 
-    this.dispatcher = new Dispatcher(this, this.registry);
+    this.dispatcher = new Dispatcher(this, this.commands);
 
     this.suffix = options.suffix || '?';
 
     this.on('message', msg => {
-      try {
-        this.dispatcher.handleMessage(msg);
-      } catch (err) {
-        this.emit('error', err);
-      }
+      this.dispatcher.handleMessage(msg);
     });
 
     this.on('messageUpdate', (msg, old) => {
-      try {
-        this.dispatcher.handleMessage(msg, old);
-      } catch (err) {
-        this.emit('error', err);
-      }
+      this.dispatcher.handleMessage(msg, old);
     });
 
     this.on('ready', () => {

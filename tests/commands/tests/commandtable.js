@@ -11,11 +11,10 @@ module.exports = class CommandTable extends Command {
     });
   }
 
-
   run(msg) {
     return msg.channel.send(`${'```'}${
       inspect(
-          this.client.registry.commandTable,
+          this.client.commands.table,
           { depth: 2, showHidden: true }
           )}${'```'}`);
   }

@@ -8,11 +8,7 @@ class Registry {
     this.commands = new Collection();
   }
 
-  registerCommand(command) {
-    return this.registerCommands([command]);
-  }
-
-  registerCommands(commands) {
+  register(commands) {
     if (!Array.isArray(commands)) throw new TypeError('Commands must be an Array.');
 
     for (let obj of commands) {
@@ -36,12 +32,12 @@ class Registry {
 
       // Make sure there aren't any conflicts
       if (this.commands.some(cmd => cmd.name === command.name || cmd.aliases.includes(command.name))) {
-        this.client.emit('error', `A command with the name/alias "${command.name}" is already registered.`);
+        this.client.emit('warn', `A command with the name/alias "${command.name}" is already registered; skipping.`);
       }
 
       for (const alias of command.aliases) {
         if (this.commands.some(cmd => cmd.name === alias || cmd.aliases.includes(alias))) {
-          this.client.emit('error', `A command with the name/alias "${alias}" is already registered.`);
+          this.client.emit('warn', `A command with the name/alias "${alias}" (${command.name}) is already registered; skipping.`);
         }
       }
 
@@ -52,7 +48,7 @@ class Registry {
     return this;
   }
 
-  registerCommandsIn(options) {
+  registerIn(options) {
     const obj = require('require-all')(options);
     const commands = [];
 
@@ -62,7 +58,7 @@ class Registry {
       });
     });
 
-    return this.registerCommands(commands);
+    return this.register(commands);
   }
 
   find(name) {
@@ -74,7 +70,7 @@ class Registry {
     return false;
   }
 
-  get commandTable() {
+  get table() {
     let table = {};
     this.commands.forEach(command => {
       if (!table[command.group]) table[command.group] = [];

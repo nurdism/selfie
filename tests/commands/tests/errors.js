@@ -1,27 +1,36 @@
 const { Command } = require('../../../src/index');
 
-module.exports = class Template extends Command {
+module.exports = class ErrorTest extends Command {
   constructor(client) {
     super(client, {
-      name: 'template',
-      aliases: ['temp'],
+      name: 'errors',
+      aliases: ['error'],
       description: 'description',
       arguments: ['[arguments]'],
       examples: `template${client.suffix} [arguments]`,
-      guildOnly: false,
+      guildOnly: true,
     });
   }
 
   hasPermission(msg) {
+    if (msg.args[0] && msg.args[0] === 'permission') {
+      return false;
+    }
     return msg.channel.permissionsFor(msg.member).hasPermission('SEND_MESSAGES');
   }
 
   canRun(msg) {
+    if (msg.args[0] && msg.args[0] === 'canRun') {
+      return false;
+    }
     return msg.author.id === this.client.user.id;
   }
 
-  run(msg, args, executor, edited) {
-    return msg.channel.send(`${'```'}args:${args}\nexecutor:${executor}\nedited:${edited}${'```'}`);
+  run(msg, args) {
+    if (args[0] && args[0] === 'throw') {
+      return msg.send(new Array(2500).join('d'));
+    }
+    return undefined;
   }
 
   onReject(channel, reason, error) {

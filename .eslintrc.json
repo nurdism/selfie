@@ -31,7 +31,6 @@
       }
     }],
 
-    "no-unreachable": 0,
     "accessor-pairs": "warn",
     "array-callback-return": "error",
     "complexity": "warn",

@@ -21,58 +21,93 @@ class CommandMessage {
 
       this.delete().catch();
 
-      let rejected = this.command.onReject(this.channel, reason, error);
+      let rejected;
+
+      try {
+        rejected = this.command.onReject(this.channel, reason, error);
+      } catch (err) {
+        this.client.emit('commandError', this.command, this, this.args, err);
+      }
+
       if (rejected instanceof Promise) {
         return rejected.then(retVal => {
           if (retVal instanceof Message) {
             return retVal.delete(10000);
           } else {
-            return this.channel.send(response).then(msg => { msg.delete(10000); });
+            return this.send(response).then(msg => { msg.delete(10000); });
           }
         });
       } else {
-        return this.channel.send(response).then(msg => { msg.delete(10000); });
+        return this.send(response).then(msg => { msg.delete(10000); });
       }
     };
 
-    if (this.command.guildOnly && !this.message.guild) {
-      return reject('guildOnly', `The \`${this.command.name}\` command must be used in a server channel.`);
-    }
-
-    if (!this.command.hasPermission(this)) {
-      return reject('permission', `You do not have permission to use the \`${this.command.name}\` command here.`);
-    }
-
-    if (!this.command.canRun(this)) {
-      return reject('run', `You can not run \`${this.command.name}\`, requirements not met.`);
-    }
-
     try {
+      if (this.command.guildOnly && !this.message.guild) {
+        return reject('guildOnly', `The \`${this.command.name}\` command must be used in a server channel.`);
+      }
+
+      if (!this.command.hasPermission(this)) {
+        return reject('permission', `You do not have permission to use the \`${this.command.name}\` command here.`);
+      }
+
+      if (!this.command.canRun(this)) {
+        return reject('run', `You can not run \`${this.command.name}\`, requirements not met.`);
+      }
+
       this.client.emit('debug', `Running command ${this.command.group}:${this.command.name}.`);
       const command = this.command.run(this, this.args, this.executor, this.edited);
       if (command instanceof Promise) {
-        return command.catch(err => reject(
-            'error',
-            `An error occurred while running '${this.command.name}': \`${err.name}: ${err.message}\``,
-            err));
+        return command.catch(err =>
+          reject('error', `An error occurred while running '${this.command.name}': \`${err.name}: ${err.message}\``, err));
       } else {
+        if (!command) {
+          this.client.emit('warn', `Command ${this.command.name} doesn't return anything!`);
+        } else {
+          this.client.emit('warn', `Command ${this.command.name} doesn't return a Promise it returned ${typeof command}!`);
+        }
         return command;
       }
     } catch (err) {
-      return reject(
-          'error',
-          `An error occurred while running '${this.command.name}': \`${err.name}: ${err.message}\``,
-          err);
+      return reject('error', `An error occurred while running '${this.command.name}': \`${err.name}: ${err.message}\``, err);
     }
   }
 
+  say(content, options) {
+    return this.message.channel.send(content, options);
+  }
 
-  getUser(search) {
+  reply(content, options) {
+    return this.message.reply.send(content, options);
+  }
+
+  direct(user, content, options) {
+    return user.sendMessage(content, options);
+  }
+
+  code(content, lang, options) {
+    return this.message.channel.send(`${'```'}${lang ? `${lang}\n` : ''}${content}${'```'}`, options);
+  }
+
+  embed(content, embed) {
+    return this.message.channel.send(content, { embed: embed });
+  }
+
+  send(content, options) {
+    return this.message.channel.send(content, options);
+  }
+
+  find(search) {
     let user = this.message.mentions.users.first();
     if (!user) {
       if (!search) {
         return this.author;
       } else {
+        user = this.client.users.get(search);
+        if (user) {
+          return user;
+        }
+
         user = this.client.users.find(u => u.username === search);
         if (user) {
           return user;
@@ -90,20 +125,20 @@ class CommandMessage {
   }
 
 
-    /**
-     * Shortcut to `this.message.id`
-     * @type {string}
-     * @see {@link Message#id}
-     */
+/**
+ * Shortcut to `this.message.id`
+ * @type {string}
+ * @see {@link Message#id}
+ */
   get id() {
     return this.message.id;
   }
 
-    /**
-     * Shortcut to `this.message.content`
-     * @type {string}
-     * @see {@link Message#content}
-     */
+/**
+ * Shortcut to `this.message.content`
+ * @type {string}
+ * @see {@link Message#content}
+ */
   get content() {
     return this.message.content;
   }

@@ -2,9 +2,9 @@ const Command = require('./../command/index');
 const CommandMessage = require('./../command/message');
 
 class Dispatcher {
-  constructor(client, registry) {
+  constructor(client, commands) {
     Object.defineProperty(this, 'client', { value: client });
-    this.registry = registry;
+    this.commands = commands;
   }
 
   handleMessage(message, old) {
@@ -45,7 +45,7 @@ class Dispatcher {
       }
     }
 
-    let command = this.registry.find(cmd);
+    let command = this.commands.find(cmd);
     if (command instanceof Command) {
       return new CommandMessage(message, command, args, cmd, edited);
     } else {

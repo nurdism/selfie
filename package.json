@@ -17,8 +17,8 @@
   ],
   "scripts": {
     "test": "node ./tests/bot.js",
-    "lint": "eslint src",
-    "fix": "eslint --fix src"
+    "lint": "eslint .",
+    "fix": "eslint --fix ."
   },
   "author": "Digitronic <me@digironic.io>",
   "license": "MIT",
@@ -31,7 +31,9 @@
     "sqlite3": "^3.1.8"
   },
   "devDependencies": {
+    "common-tags": "^1.4.0",
     "eslint": "^3.12.2",
-    "sqlite3": "^3.1.8"
+    "sqlite3": "^3.1.8",
+    "winston": "^2.3.0"
   }
 }
