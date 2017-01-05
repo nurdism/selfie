@@ -4,6 +4,8 @@ Selfie is a simple command framework for selfbots and selfbots only. It uses a s
 
 This is currently undocumented, too lazy to add docs might later. To get a good idea on how to use framework look in tests.
 
+To install selfie run `npm i -s digitronics/selfie` 
+
 ## Made With
 * [discord.js](https://github.com/hydrabolt/discord.js) - Discord Client
 * [sequelize](https://www.npmjs.com/package/sequelize) - Sequelize is a promise-based Node.js/io.js ORM for Postgres, MySQL, MariaDB, SQLite and Microsoft SQL Server

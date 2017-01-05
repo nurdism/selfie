@@ -3,6 +3,13 @@
   "version": "0.1.0",
   "description": "Selfie is Discord.js a selfbot command framwork!",
   "main": "src/index",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/digitronics/selfie.git"
+  },
+  "bugs": {
+    "url": "https://github.com/digitronics/selfie/issues"
+  },
   "keywords": [
     "discord",
     "selfbot",
