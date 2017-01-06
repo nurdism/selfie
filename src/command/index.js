@@ -16,9 +16,13 @@ class Command {
 
     Object.defineProperty(this, 'client', { value: client });
 
-    Object.defineProperty(this, 'settings', { value: client.settings });
+    if (client.database) {
+      Object.defineProperty(this, 'database', { value: client.database });
 
-    Object.defineProperty(this, 'database', { value: client.database });
+      Object.defineProperty(this, 'settings', { value: client.settings });
+
+    }
+
 
     this.aliases = options.aliases || [];
     this.guildOnly = options.guildOnly || false;

@@ -30,7 +30,7 @@
         "null": "void"
       }
     }],
-
+    "no-unused-vars": ["error", { "args": "none" }],
     "accessor-pairs": "warn",
     "array-callback-return": "error",
     "complexity": "warn",

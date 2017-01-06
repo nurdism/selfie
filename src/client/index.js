@@ -8,9 +8,11 @@ class SelfieClient extends Client {
   constructor(options) {
     super(options);
 
-    this.database = new Database(this, options.database);
+    if (options.database) {
+      this.database = new Database(this, options.database);
 
-    this.settings = new Settings(this, this.database);
+      this.settings = new Settings(this, this.database);
+    }
 
     this.commands = new Registry(this);
 
@@ -32,7 +34,11 @@ class SelfieClient extends Client {
   }
 
   login(token) {
-    return this.database.start().then(() => super.login(token)).catch(err => { this.emit('error', err); });
+    if (this.database) {
+      return this.database.start().then(() => super.login(token)).catch(err => { this.emit('error', err); });
+    } else {
+      return super.login(token);
+    }
   }
 
 }

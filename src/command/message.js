@@ -73,26 +73,6 @@ class CommandMessage {
     }
   }
 
-  send(content, options) {
-    return this.message.channel.send(content, options);
-  }
-
-  reply(content, options) {
-    return this.message.reply(content, options);
-  }
-
-  sendCode(content, lang, options) {
-    return this.message.sendCode(content, lang, options);
-  }
-
-  sendEmbed(embed) {
-    return this.message.sendEmbed(embed);
-  }
-
-  editEmbed(embed, content) {
-    return this.message.sendEmbed(embed, content);
-  }
-
   find(search) {
     let user = this.message.mentions.users.first();
     if (!user) {
@@ -118,6 +98,26 @@ class CommandMessage {
       }
     }
     return false;
+  }
+
+  send(content, options) {
+    return this.message.channel.send(content, options);
+  }
+
+  reply(content, options) {
+    return this.message.reply(content, options);
+  }
+
+  sendCode(content, lang, options) {
+    return this.message.sendCode(content, lang, options);
+  }
+
+  sendEmbed(embed) {
+    return this.message.sendEmbed(embed);
+  }
+
+  editEmbed(embed, content) {
+    return this.message.sendEmbed(embed, content);
   }
 
 

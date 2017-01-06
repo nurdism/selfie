@@ -37,7 +37,7 @@ selfie.on('ready', () => {
 .on('messageUpdate', (m, o) => {
   if (m.author.id === selfie.user.id) winston.log(`${o.guild.name} on #${o.channel.name} (edit) => ${o.author.username}:${o.content}`);
 })
-.on('debug', winston.info)
+// .on('debug', winston.info)
 .on('warn', winston.warn)
 .on('error', winston.error);
 
