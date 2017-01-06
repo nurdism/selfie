@@ -20,7 +20,6 @@ class Command {
       Object.defineProperty(this, 'database', { value: client.database });
 
       Object.defineProperty(this, 'settings', { value: client.settings });
-
     }
 
 

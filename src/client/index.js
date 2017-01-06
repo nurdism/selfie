@@ -9,9 +9,14 @@ class SelfieClient extends Client {
     super(options);
 
     if (options.database) {
-      this.database = new Database(this, options.database);
-
-      this.settings = new Settings(this, this.database);
+      try {
+        require.resolve('sequelize');
+        this.database = new Database(this, options.database);
+        this.settings = new Settings(this, this.database);
+      } catch (err) {
+        this.emit('warn', 'Unable to setup database, skipping database integration.');
+        this.emit('error', err);
+      }
     }
 
     this.commands = new Registry(this);
@@ -28,9 +33,11 @@ class SelfieClient extends Client {
       this.dispatcher.handleMessage(msg, old);
     });
 
-    this.on('ready', () => {
-      this.settings.init();
-    });
+    if (this.database) {
+      this.on('ready', () => {
+        this.settings.init();
+      });
+    }
   }
 
   login(token) {
