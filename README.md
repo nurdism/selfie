@@ -6,6 +6,8 @@ This is currently undocumented, too lazy to add docs might later. To get a good 
 
 To install selfie run `npm i -s digitronics/selfie` 
 
+`NOTE:` Still in development anything is subject to change. Wait for 1.0 to use reliably.
+
 ## Made With
 * [discord.js](https://github.com/hydrabolt/discord.js) - Discord Client
 * [sequelize](https://www.npmjs.com/package/sequelize) - Sequelize is a promise-based Node.js/io.js ORM for Postgres, MySQL, MariaDB, SQLite and Microsoft SQL Server
