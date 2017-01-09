@@ -4,6 +4,7 @@ const Sequelize = require('sequelize');
 module.exports = class Database extends Command {
   constructor(client) {
     super(client, {
+      filename: 'database',
       name: 'database',
       aliases: ['dbtest'],
       description: 'description',

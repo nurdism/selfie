@@ -3,6 +3,7 @@ const { Command } = require('../../../src/index');
 module.exports = class Template extends Command {
   constructor(client) {
     super(client, {
+      filename: 'template',
       name: 'template',
       aliases: ['temp'],
       description: 'description',

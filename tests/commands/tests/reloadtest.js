@@ -1,18 +1,19 @@
 const { Command } = require('../../../src/index');
 
-module.exports = class Test extends Command {
+module.exports = class ReloadTest extends Command {
   constructor(client) {
     super(client, {
-      filename: 'test',
-      name: 'test',
+      filename: 'reloadtest',
+      name: 'reloadtest',
       description: 'description',
       arguments: ['[arguments]'],
       examples: `template${client.suffix} [arguments]`,
-      guildOnly: true,
+      guildOnly: false,
     });
   }
 
-  run(msg, args, executor, edited) {
-    return msg.sendCode(`args:${args}\nexecutor:${executor}\nedited:${edited}`);
+  run(msg) {
+    msg.send('GGGGoooooooot!');
   }
+
 };

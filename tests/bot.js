@@ -20,6 +20,12 @@ selfie.on('ready', () => {
 .on('commandRegister', (cmd, registry) => {
   winston.info(`Registered command (${registry.commands.array().length}) ${cmd.group}:${cmd.name}`);
 })
+.on('commandReregister', (cmd, old) => {
+  winston.info(`Registered command ${old.group}:${old.name} => ${cmd.group}:${cmd.name}`);
+})
+.on('commandUnregister', cmd => {
+  winston.info(`Unregistered command ${cmd.group}:${cmd.name}`);
+})
 .on('unknownCommand', (cmd, args) => {
   winston.warn(`Unknown Command: ${cmd} => ${args}`);
 })
@@ -30,12 +36,18 @@ selfie.on('ready', () => {
   winston.warn(`Command Error: ${cmd.group}:${cmd.name}, ${err.name}: ${err.message} \n ${err.stack}`);
 })
 .on('message', (m) => {
-  if (m.author.id === selfie.user.id) {
-    winston.log(`${m.guild.name} on #${m.channel.name} => ${m.author.username}:${m.content}`);
+  if (m.author.id === selfie.user.id && m.guild) {
+    winston.info(`${m.guild.name} on #${m.channel.name} => ${m.author.username}:${m.content}`);
+  } else if (!m.guild) {
+    winston.info(`DM Message => ${m.author.username}>>${m.channel.recipient.username}:${m.content}`);
   }
 })
 .on('messageUpdate', (m, o) => {
-  if (m.author.id === selfie.user.id) winston.log(`${o.guild.name} on #${o.channel.name} (edit) => ${o.author.username}:${o.content}`);
+  if (m.author.id === selfie.user.id && m.guild) {
+    winston.info(`${m.guild.name} on #${m.channel.name} (edit) => ${m.author.username}:${m.content} >> ${o.content}`);
+  } else if (!m.guild) {
+    winston.info(`DM Message (edit) => ${m.author.username}>>${m.channel.recipient.username}:${m.content} >> ${o.content}`);
+  }
 })
 // .on('debug', winston.info)
 .on('warn', winston.warn)

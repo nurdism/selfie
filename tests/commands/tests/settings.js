@@ -3,6 +3,7 @@ const { Command } = require('../../../src/index');
 module.exports = class Settings extends Command {
   constructor(client) {
     super(client, {
+      filename: 'setting',
       name: 'setting',
       description: 'description',
       arguments: ['[arguments]'],

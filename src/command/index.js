@@ -13,6 +13,9 @@ class Command {
     if (options.aliases && options.aliases.some(ali => ali !== ali.toLowerCase())) {
       throw new Error('Command aliases must be lowercase.');
     }
+    if (!options.filename) {
+      throw new Error('Command filename missing!');
+    }
 
     Object.defineProperty(this, 'client', { value: client });
 
@@ -22,7 +25,6 @@ class Command {
       Object.defineProperty(this, 'settings', { value: client.settings });
     }
 
-
     this.aliases = options.aliases || [];
     this.guildOnly = options.guildOnly || false;
 
@@ -30,22 +32,38 @@ class Command {
     this.description = options.description || 'No description available.';
     this.arguments = options.arguments || ['No arguments set.'];
     this.examples = options.examples || 'No examples available.';
+    this.filename = options.filename;
   }
 
-  hasPermission() {
+  hasPermission(message) {
     return true;
   }
 
-  canRun() {
+  canRun(message) {
     return true;
   }
 
-  run(msg) {
-    return msg;
+  run(message, args, executor, edited) {
+    return message;
   }
 
-  onReject() {
+  onReject(channel, reason, error) {
     return false;
+  }
+
+  reload() {
+    let cmd;
+    if (require.cache[this.path]) {
+      delete require.cache[this.path];
+    }
+    cmd = require(this.path);
+    this.client.commands.reregister(cmd, this);
+  }
+
+  unload() {
+    if (!require.cache[this.path]) throw new Error('Command cannot be unloaded.');
+    delete require.cache[this.path];
+    this.client.commands.unregister(this);
   }
 }
 

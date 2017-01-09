@@ -5,6 +5,7 @@ const beautify = require('js-beautify').js_beautify;
 module.exports = class Eval extends Command {
   constructor(client) {
     super(client, {
+      filename: 'eval',
       name: 'eval',
       description: 'Evaluates some javascript and displays the output.',
       arguments: ['[arguments]'],
@@ -30,7 +31,7 @@ module.exports = class Eval extends Command {
       /*eslint-disable */
 
       let commandMessage = msg;
-      let message = msg.message.message;
+      let message = msg.message;
       let guild = msg.message.guild;
       let channel = msg.message.channel;
       let member = msg.message.member;

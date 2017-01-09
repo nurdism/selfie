@@ -3,6 +3,7 @@ const { inspect } = require('util');
 module.exports = class CommandTable extends Command {
   constructor(client) {
     super(client, {
+      filename: 'commandtable',
       name: 'commands',
       description: 'description',
       arguments: ['[arguments]'],

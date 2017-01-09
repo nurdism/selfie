@@ -3,6 +3,7 @@ const { Command } = require('../../../src/index');
 module.exports = class ErrorTest extends Command {
   constructor(client) {
     super(client, {
+      filename: 'errors',
       name: 'errors',
       aliases: ['error'],
       description: 'description',

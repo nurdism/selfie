@@ -3,6 +3,7 @@ const { Command, RichEmbed } = require('../../../src/index');
 module.exports = class Cats extends Command {
   constructor(client) {
     super(client, {
+      filename: 'cats',
       name: 'cats',
       aliases: ['kitty', 'kitties', 'cat'],
       description: 'description',

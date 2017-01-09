@@ -3,6 +3,7 @@ const { Command } = require('../../../src/index');
 module.exports = class Ping extends Command {
   constructor(client) {
     super(client, {
+      filename: 'ping',
       name: 'ping',
       description: 'description',
       arguments: ['[arguments]'],

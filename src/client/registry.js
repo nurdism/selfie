@@ -1,10 +1,10 @@
 const { Collection } = require('discord.js');
 const SelfieCommand = require('./../command/index');
+const path = require('path');
 
 class Registry {
   constructor(client) {
     Object.defineProperty(this, 'client', { value: client });
-
     this.commands = new Collection();
   }
 
@@ -12,7 +12,7 @@ class Registry {
     if (!Array.isArray(commands)) throw new TypeError('Commands must be an Array.');
 
     for (let obj of commands) {
-      let command, Command = obj.command, group = obj.group;
+      let command, Command = obj.command, group = obj.group, cmdpath = obj.path;
 
       if (typeof Command === 'function') command = new Command(this.client);
 
@@ -28,6 +28,11 @@ class Registry {
       } else {
         this.client.emit('warn', `Attempting to register a command with out group: ${command.name}; skipping.`);
         continue;
+      }
+
+      // Set path
+      if (cmdpath) {
+        command.path = path.join(cmdpath, group, `${command.filename}.js`);
       }
 
       // Make sure there aren't any conflicts
@@ -51,14 +56,32 @@ class Registry {
   registerIn(options) {
     const obj = require('require-all')(options);
     const commands = [];
-
     Object.keys(obj).forEach(i => {
       Object.keys(obj[i]).forEach(j => {
-        commands.push({ command: obj[i][j], group: i });
+        commands.push({ command: obj[i][j], group: i, path: options });
       });
     });
-
     return this.register(commands);
+  }
+
+  reregister(command, old) {
+    if (typeof command === 'function') command = new command(this.client); // eslint-disable-line new-cap
+    if (command.name !== old.name) throw new Error('Command name cannot change.');
+    command.group = old.group;
+    command.path = old.path;
+    this.commands.set(command.name, command);
+
+    this.client.emit('commandReregister', command, old);
+    this.client.emit('debug', `Reregistered command ${command.group}:${command.filename}.`);
+  }
+
+  unregister(command) {
+    if (typeof command === 'string') {
+      command = this.find(command);
+    }
+    this.commands.delete(command.name);
+    this.client.emit('commandUnregister', command);
+    this.client.emit('debug', `Unregistered command ${command.group}:${command.filename}.`);
   }
 
   find(name) {
