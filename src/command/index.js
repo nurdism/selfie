@@ -1,6 +1,6 @@
 class Command {
   constructor(client, options) {
-    if (typeof options !== 'object' && options === null) throw new TypeError('Command info must be a non null Object.');
+    if (typeof options !== 'object' || options === null) throw new TypeError('Command info must be a non null Object.');
     if (typeof options.name !== 'string') throw new TypeError('Command name must be a string.');
     if (options.name !== options.name.toLowerCase()) throw new Error('Command name must be lowercase.');
     if (options.aliases && (!Array.isArray(options.aliases) || options.aliases.some(ali => typeof ali !== 'string'))) {
