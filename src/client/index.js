@@ -1,7 +1,6 @@
 const { Client } = require('discord.js');
 const Dispatcher = require('./dispatcher');
 const Registry = require('./registry');
-const Settings = require('./../providers/settings');
 
 class SelfieClient extends Client {
   constructor(options) {
@@ -13,6 +12,7 @@ class SelfieClient extends Client {
       try {
         require.resolve('sequelize');
         const Database = require('./../providers/database');
+        const Settings = require('./../providers/settings');
         this.database = new Database(this, options.database);
         this.settings = new Settings(this, this.database);
       } catch (err) {
