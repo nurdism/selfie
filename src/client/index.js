@@ -1,16 +1,18 @@
 const { Client } = require('discord.js');
 const Dispatcher = require('./dispatcher');
 const Registry = require('./registry');
-const Database = require('./../providers/database');
 const Settings = require('./../providers/settings');
 
 class SelfieClient extends Client {
   constructor(options) {
     super(options);
 
+    if(!options) options = {};
+
     if (options.database) {
       try {
         require.resolve('sequelize');
+        const Database = require('./../providers/database');
         this.database = new Database(this, options.database);
         this.settings = new Settings(this, this.database);
       } catch (err) {
